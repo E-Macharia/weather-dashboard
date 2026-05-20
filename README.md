@@ -61,6 +61,8 @@ Then open the local URL shown in the terminal.
 
 ## Deployment
 
+Live demo: [https://weather-dashboard-etkw2apywytwvh8n3cjnqw.streamlit.app/](https://weather-dashboard-etkw2apywytwvh8n3cjnqw.streamlit.app/)
+
 To deploy on Streamlit Community Cloud:
 
 1. Push this repository to GitHub.
