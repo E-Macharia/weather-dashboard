@@ -20,20 +20,24 @@ if auto_refresh:
 # =========================
 # API KEY CONFIGURATION
 # =========================
-secret_api_key = st.secrets.get("ACCUWEATHER_API_KEY") if hasattr(st, "secrets") else None
+secret_api_key = None
+try:
+    secret_api_key = st.secrets.get("ACCUWEATHER_API_KEY")
+except Exception:
+    secret_api_key = None
+
 env_api_key = os.getenv("ACCUWEATHER_API_KEY")
 
 if secret_api_key:
     API_KEY = secret_api_key
-    st.info("Using AccuWeather API key from Streamlit secrets.")
+    st.success("Using AccuWeather API key from Streamlit secrets.")
 elif env_api_key:
     API_KEY = env_api_key
-    st.info("Using AccuWeather API key from environment variables.")
+    st.success("Using AccuWeather API key from environment variables.")
 else:
     API_KEY = None
-    st.warning(
-        "AccuWeather API key is not configured. "
-        "Set ACCUWEATHER_API_KEY in Streamlit secrets or your local environment."
+    st.error(
+        "No AccuWeather API key found. Add ACCUWEATHER_API_KEY to Streamlit Secrets or local environment variables."
     )
 
 # =========================
