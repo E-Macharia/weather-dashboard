@@ -4,7 +4,9 @@ A real-time weather analytics dashboard built with Streamlit and the AccuWeather
 
 ## Overview
 
-This project allows users to search for any city and view live weather conditions including temperature, weather status, and day/night information. The app automatically converts city names into AccuWeather location keys, fetches current weather data, and logs historical records to a CSV file for analytics and comparison.
+This project lets users search by city and view live weather conditions including temperature, weather status, and day/night information.
+
+The app converts city names into AccuWeather location keys automatically, fetches current weather, and logs historical records to `weather_data.csv` for analytics.
 
 ## Key Features
 
@@ -14,7 +16,7 @@ This project allows users to search for any city and view live weather condition
 - 💾 Automatic CSV logging for historical analytics
 - 🔄 Optional live refresh for real-time updates
 - 📊 Multi-city temperature comparison charts
-- 🧠 Interactive and easy-to-use Streamlit dashboard interface
+- 🧠 Interactive Streamlit dashboard interface
 
 ## Tech Stack
 
@@ -42,6 +44,66 @@ pip install -r requirements.txt
 
 4. Create an AccuWeather API key by signing up at [AccuWeather Developer](https://developer.accuweather.com/).
 
+## Configure the API Key
+
+The app hides the API key from the user interface and uses a secure configuration instead.
+
+### Option 1: Streamlit secrets (recommended)
+
+1. Open your app on Streamlit Community Cloud.
+2. Click **App settings** → **Secrets**.
+3. Paste your key in TOML format:
+
+```toml
+ACCUWEATHER_API_KEY = "your_real_api_key_here"
+```
+
+4. Save the secrets.
+5. Wait about one minute for propagation.
+
+When deployed, users will only see the city input. The API key is kept hidden and secure.
+
+### Option 2: Local environment variable
+
+For local development, set the key in your terminal first:
+
+```bash
+set ACCUWEATHER_API_KEY=your_real_api_key_here
+```
+
+Then run the app normally:
+
+```bash
+streamlit run app.py
+```
+
+### Option 3: Local secrets file
+
+If you prefer a local config file, create `.streamlit/secrets.toml` from the example:
+
+```bash
+copy .streamlit\secrets.toml.example .streamlit\secrets.toml
+```
+
+Then update the file with your key:
+
+```toml
+ACCUWEATHER_API_KEY = "your_real_api_key_here"
+```
+
+> Important: do not commit your real API key to GitHub.
+
+The repository already ignores `.streamlit/secrets.toml`, so your local key file stays private.
+
+## User experience
+
+With this setup, visitors only need to:
+
+1. Enter a city name.
+2. Click `Get Live Weather`.
+
+The app will use the configured AccuWeather API key behind the scenes and keep the dashboard user-friendly.
+
 ## Running Locally
 
 Start the Streamlit app:
@@ -54,28 +116,18 @@ Then open the local URL shown in the terminal.
 
 ## Usage
 
-- Enter your AccuWeather API key in the app.
-- Search for a city name such as `Nairobi`.
+- Enter a city name such as `Nairobi`.
 - Click `Get Live Weather` to fetch current weather.
-- View the temperature history and multi-city comparison charts.
+- View temperature history and multi-city comparison charts.
 
 ## Deployment
 
-Live demo: [https://weather-dashboard-etkw2apywytwvh8n3cjnqw.streamlit.app/](https://weather-dashboard-etkw2apywytwvh8n3cjnqw.streamlit.app/)
-
-To deploy on Streamlit Community Cloud:
-
-1. Push this repository to GitHub.
-2. Go to [Streamlit Cloud](https://share.streamlit.io/).
-3. Connect your GitHub account and select this repository.
-4. Deploy the current branch.
-
-> Make sure this repo includes `app.py`, `requirements.txt`, and optionally `weather_data.csv`.
+If you deploy to Streamlit Community Cloud, the app will automatically use the secret from your app settings, so visitors only enter a city name.
 
 ## Notes
 
-- The app stores historical weather records to `weather_data.csv` in the project folder.
-- If the CSV file is missing or malformed, the app includes error handling to gracefully recover.
+- The app stores historical weather records in `weather_data.csv`.
+- The dashboard handles missing or malformed CSV files gracefully.
 
 ## License
 

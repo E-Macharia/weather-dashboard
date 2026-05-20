@@ -18,9 +18,23 @@ if auto_refresh:
     st.rerun()
 
 # =========================
-# API KEY INPUT
+# API KEY CONFIGURATION
 # =========================
-API_KEY = st.text_input("🔑 Enter your AccuWeather API Key", type="password")
+secret_api_key = st.secrets.get("ACCUWEATHER_API_KEY") if hasattr(st, "secrets") else None
+env_api_key = os.getenv("ACCUWEATHER_API_KEY")
+
+if secret_api_key:
+    API_KEY = secret_api_key
+    st.info("Using AccuWeather API key from Streamlit secrets.")
+elif env_api_key:
+    API_KEY = env_api_key
+    st.info("Using AccuWeather API key from environment variables.")
+else:
+    API_KEY = None
+    st.warning(
+        "AccuWeather API key is not configured. "
+        "Set ACCUWEATHER_API_KEY in Streamlit secrets or your local environment."
+    )
 
 # =========================
 # CITY SEARCH
@@ -75,9 +89,7 @@ def save_data(record):
 # MAIN LOGIC
 # =========================
 if API_KEY and city:
-
     if st.button("🔍 Get Live Weather"):
-
         loc = get_location_key(city)
 
         if loc:
@@ -109,6 +121,8 @@ if API_KEY and city:
                 save_data(record)
 
                 st.success("Data saved to CSV ✔")
+elif city:
+    st.info("Enter your AccuWeather API key in Streamlit secrets or environment variables to fetch weather data.")
 
 # =========================
 # HISTORY + CHARTS
